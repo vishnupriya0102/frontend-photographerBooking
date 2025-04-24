@@ -1,0 +1,40 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]  # Trigger only when code is pushed to main
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Lint code
+        run: npm run lint
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build project
+        run: npm run build
+
+      # Optional: Deployment step (example for Vercel)
+      - name: Deploy to Vercel
+        run: |
+          npm i -g vercel
+          vercel --prod --token=$VERCEL_TOKEN
+        env:
+          VERCEL_TOKEN: ${{ 9cq1JpoJmGGxnY3lP3DwNczG}}
